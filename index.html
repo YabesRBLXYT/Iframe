@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iframe Switcher with Full Screen</title>
+    <title>Iframe Switcher with Full Screen and External Links</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,7 +23,7 @@
         }
         #fullScreenBtn {
             position: absolute;
-            bottom: -40px; /* Letakkan tombol di bawah kotak iframe */
+            top: -40px; /* Letakkan tombol di atas iframe */
             right: 0;
             padding: 10px 20px;
             background-color: #007BFF;
@@ -33,19 +33,34 @@
             font-size: 16px;
         }
         .button-container {
-            margin-top: 60px; /* Tambah margin agar tidak bentrok dengan tombol full screen */
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
         }
-        .button-container button {
+        .button-item {
+            margin: 0 10px;
+            text-align: center;
+        }
+        .button-item button {
             display: block;
-            margin: 5px auto;
+            margin-bottom: 5px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
         }
+        .button-item a {
+            display: block;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Iframe Link Switcher with Full Screen</h1>
+    <h1>Iframe Link Switcher with Full Screen and External Links</h1>
 
     <div id="iframe-container">
         <iframe id="myIframe" src="about:blank" allowfullscreen></iframe>
@@ -53,7 +68,7 @@
     </div>
 
     <div class="button-container" id="buttonContainer">
-        <!-- Buttons will be generated here -->
+        <!-- Buttons and external links will be generated here -->
     </div>
 
     <script>
@@ -64,15 +79,26 @@
                 const buttonContainer = document.getElementById('buttonContainer');
                 const iframe = document.getElementById('myIframe');
 
-                // Create buttons from JSON data
+                // Create buttons and external links from JSON data
                 data.forEach(item => {
                     if (item.text) {
+                        const div = document.createElement('div');
+                        div.className = 'button-item';
+
                         const button = document.createElement('button');
                         button.textContent = item.text;
                         button.addEventListener('click', () => {
                             iframe.src = item.url;
                         });
-                        buttonContainer.appendChild(button);
+
+                        const externalLink = document.createElement('a');
+                        externalLink.href = item.url;
+                        externalLink.target = '_blank';
+                        externalLink.textContent = 'Open in new tab';
+
+                        div.appendChild(button);
+                        div.appendChild(externalLink);
+                        buttonContainer.appendChild(div);
                     }
                 });
             })
